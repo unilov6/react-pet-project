@@ -1,12 +1,20 @@
 import React from "react";
-import Counter from "./components/Counter.jsx"
+import "./styles/App.css"
 
 function App() {
   return (
     <div className="App">
-      <Counter />
-      <Counter />
-      <Counter />
+      <div className="post">
+        <div className="post__content">
+          <strong>1. JavaScript</strong>
+          <div>
+            JavaScript - is a programming language
+          </div>
+        </div>
+        <div className="post__btns">
+          <button>Delete</button>
+        </div>
+      </div>
     </div>
   );
 }
