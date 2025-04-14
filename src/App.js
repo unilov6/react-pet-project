@@ -10,6 +10,17 @@ function App() {
   ])
   return (
     <div className="App">
+      <form>
+        <input 
+          type="text"
+          placeholder="Post title"
+        />
+        <input 
+          type="text"
+          placeholder="Post description"
+        />
+        <button>Create post</button>
+      </form>
       <PostList posts={posts} title="Post list" />
     </div>
   );
