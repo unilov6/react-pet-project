@@ -9,15 +9,10 @@ import { usePosts } from "./hooks/usePosts";
 
 function App() {
   const [posts, setPosts] = useState([])
-
   const [filter, setFilter] = useState({sort: '', query: ''})
-
   const [modal, setModal] = useState(false)
-
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
 
-  
-  
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
     setModal(false)
@@ -27,11 +22,18 @@ function App() {
     setPosts(posts.filter(p => p.id !== post.id))
   }
 
+   async function getPosts() {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+    const json = await response.json()
+    setPosts(json)
+   }
+
   return (
     <div className="App">
       <MyButton style={{marginTop: '30px'}} onClick={() => setModal(true)}>
         Create post
       </MyButton>
+      <MyButton onClick={getPosts}>Get posts</MyButton>
       <MyModal visible={modal} setVisible={setModal}>
         <PostForm create={createPost} />
       </MyModal>
