@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/App.css"
 import PostForm from "./components/PostForm";
 import PostFilter from "./components/PostFilter";
@@ -6,6 +6,7 @@ import PostList from "./components/PostList"
 import MyModal from "./UI/MyModal/MyModal";
 import MyButton from "./UI/button/MyButton";
 import { usePosts } from "./hooks/usePosts";
+import PostService from "./API/PostService";
 
 function App() {
   const [posts, setPosts] = useState([])
@@ -22,18 +23,20 @@ function App() {
     setPosts(posts.filter(p => p.id !== post.id))
   }
 
-   async function getPosts() {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-    const json = await response.json()
-    setPosts(json)
+   async function fetchPosts() {
+    const posts = await PostService.getAll()
+    setPosts(posts)
    }
+
+   useEffect(() => {
+    fetchPosts()
+   }, [])
 
   return (
     <div className="App">
       <MyButton style={{marginTop: '30px'}} onClick={() => setModal(true)}>
         Create post
       </MyButton>
-      <MyButton onClick={getPosts}>Get posts</MyButton>
       <MyModal visible={modal} setVisible={setModal}>
         <PostForm create={createPost} />
       </MyModal>
