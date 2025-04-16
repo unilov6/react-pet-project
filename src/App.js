@@ -13,6 +13,7 @@ function App() {
   const [filter, setFilter] = useState({sort: '', query: ''})
   const [modal, setModal] = useState(false)
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+  const [isPostLoading, setIsPostLoading] = useState(false)
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
@@ -24,8 +25,10 @@ function App() {
   }
 
    async function fetchPosts() {
+    setIsPostLoading(true)
     const posts = await PostService.getAll()
     setPosts(posts)
+    setIsPostLoading(false)
    }
 
    useEffect(() => {
@@ -45,7 +48,10 @@ function App() {
         filter={filter}
         setFilter={setFilter}
       />
-      <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Post list" />
+      {isPostLoading 
+        ? <h1 style={{textAlign: 'center'}}>Loading...</h1> 
+        : <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Post list" />
+      }
     </div>
   );
 }
